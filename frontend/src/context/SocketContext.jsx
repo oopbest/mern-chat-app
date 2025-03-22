@@ -6,6 +6,9 @@ const SocketContext = createContext(null);
 
 export const useSocketContext = () => useContext(SocketContext);
 
+const BASE_URL =
+  import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
+
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -13,7 +16,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:5001", {
+      const socket = io(BASE_URL, {
         query: {
           userId: authUser._id,
         },
